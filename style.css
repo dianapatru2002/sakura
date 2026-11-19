@@ -1,0 +1,89 @@
+:root {
+  --sakura: #FCEAE8;  /* hârtie roz */
+  --beni:   #D8344F;  /* roșu soare */
+  --sumi:   #2C2535;  /* cerneală */
+  --momo:   #EE8E9E;
+  --display: "Cormorant Garamond", "Shippori Mincho B1", serif;
+  --body: "Figtree", system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body { background: var(--sumi); color: var(--sumi); font-family: var(--body); overflow: hidden; }
+
+.hero {
+  position: relative; height: 100%; overflow: hidden;
+  background-color: var(--sakura);
+  /* model seigaiha (valuri) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24'%3E%3Cg fill='%23FCEAE8' stroke='%23F6D8D7' stroke-width='1.2'%3E%3Cg id='w'%3E%3Ccircle r='24'/%3E%3Ccircle r='18'/%3E%3Ccircle r='12'/%3E%3Ccircle r='6'/%3E%3C/g%3E%3Cuse href='%23w' x='24' y='-12'/%3E%3Cuse href='%23w' x='48' y='0'/%3E%3Cuse href='%23w' x='24' y='12'/%3E%3Cuse href='%23w' x='0' y='24'/%3E%3Cuse href='%23w' x='48' y='24'/%3E%3Cuse href='%23w' x='24' y='36'/%3E%3C/g%3E%3C/svg%3E");
+}
+.layer { position: absolute; inset: -3%; width: 106%; height: 106%; }
+
+/* nori */
+.kasumi { fill: var(--sakura); stroke: var(--sumi); stroke-width: 3; }
+.drift { animation: drift var(--dur) linear var(--del) infinite; }
+@keyframes drift { from { transform: translateX(-500px); } to { transform: translateX(2300px); } }
+.bob { animation: bob var(--d) ease-in-out var(--dl, 0s) infinite alternate; }
+@keyframes bob { from { transform: translate(-25px, 6px) rotate(-1deg); } to { transform: translate(25px, -8px) rotate(1deg); } }
+
+/* coroana se leagănă */
+.cl { transform-box: fill-box; transform-origin: 50% 100%; animation: sway var(--d) ease-in-out var(--dl) infinite alternate; }
+@keyframes sway { from { transform: rotate(-.8deg); } to { transform: rotate(.8deg); } }
+.ribbon { fill: none; }
+.ribbon path { vector-effect: non-scaling-stroke; stroke-width: 1; }
+
+.branch {
+  position: absolute; top: 0; right: 0; width: min(44vw, 620px); height: auto;
+  transform-origin: 100% 0; animation: branch 8s ease-in-out infinite alternate;
+}
+@keyframes branch { from { transform: rotate(-1.5deg); } to { transform: rotate(1.2deg); } }
+
+/* intrarea: soarele răsare, dealurile urcă, copacul înflorește */
+.sun { animation: sunrise 2.2s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes sunrise { from { transform: translateY(300px); } }
+.rise { animation: rise 1.4s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes rise { from { transform: translateY(80px); opacity: 0; } }
+.tree circle, .tree use { transform-box: fill-box; transform-origin: center; animation: bloom .7s cubic-bezier(.3,1.5,.5,1) var(--t, 1.2s) both; }
+@keyframes bloom { from { transform: scale(0); } }
+
+.text {
+  position: absolute; left: 6vw; top: 22vh; max-width: 46vw; z-index: 2;
+}
+h1 {
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(3.4rem, 7.4vw, 8.5rem); line-height: .92; letter-spacing: -.01em;
+}
+h1 span { display: block; overflow: hidden; animation: line 1s cubic-bezier(.2,.7,.2,1) .3s both; }
+h1 span + span { padding-left: .9em; animation-delay: .45s; }
+@keyframes line { from { clip-path: inset(0 0 100% 0); transform: translateY(.4em); } to { clip-path: inset(0 0 -10% 0); } }
+.text p { margin-top: 1.6rem; max-width: 30ch; font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.6; color: #5E4A57; animation: fade 1s ease 1s both; }
+@keyframes fade { from { opacity: 0; } }
+.seal {
+  position: absolute; right: -1.6rem; top: -1.4rem;
+  writing-mode: vertical-rl; font-family: "Shippori Mincho B1", serif; font-weight: 800;
+  background: var(--beni); color: var(--sakura); font-size: 1.3rem; line-height: 1; padding: .55rem .4rem;
+  border-radius: 6px; transform: rotate(-5deg);
+  animation: stamp .5s cubic-bezier(.3,1.6,.5,1) 1.6s both;
+}
+@keyframes stamp { from { transform: scale(1.8) rotate(-12deg); opacity: 0; } }
+
+.toggle {
+  position: absolute; left: 6vw; bottom: 5vh; z-index: 5;
+  font: 500 .95rem var(--body); color: var(--sakura); background: none;
+  border: 1.5px solid rgba(252,234,232,.5); border-radius: 99px; padding: .6rem 1.1rem; cursor: pointer;
+}
+.toggle:hover { border-color: var(--sakura); }
+.toggle:focus-visible { outline: 2px solid var(--momo); outline-offset: 3px; }
+
+#petals { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; }
+
+/* telefon, ecran vertical: textul coboară pe dealul întunecat */
+@media (max-aspect-ratio: 6/5) {
+  .text { top: auto; bottom: 14vh; left: 7vw; max-width: 86vw; color: var(--sakura); }
+  .text p { color: #E9CFD3; }
+  .branch { width: 72vw; }
+  .seal { right: 0; top: -3.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+}
